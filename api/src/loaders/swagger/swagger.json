@@ -1,0 +1,145 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Users and products Api",
+    "description": "## This a api for users and products",
+    "version": "0.0.1",
+    "contact": {
+      "email": "gastonm3112@gmail.com"
+    }
+  },
+
+  "servers": [
+    {
+      "url": "http://localhost:3900/api/v1",
+      "description": "Desarrollo"
+    },
+    {
+      "url": "http://localhost:3900/api/v1",
+      "description": "Producción"
+    }
+  ],
+  "tags": [
+    {
+      "name": "users",
+      "description": "Users Login if not exists its created"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Login User.",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User Login."
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Users": {
+        "required": ["id"],
+        "type": "object",
+        "properties": {
+       
+          "_id": {
+            "description": "The user id.",
+            "type": "string",
+            "example": "25acd789def..."
+          },
+          "email": {
+            "description": "The user email.",
+            "type": "string",
+            "example": "example@mail.com"
+          },
+          "password": {
+            "description": "The user password.",
+            "type": "string",
+            "example": "$2b$10$om4Aa5l2.QdSip87EdJM"
+          }
+        }
+      },
+      "Login": {
+        "required": ["id"],
+        "type": "object",
+        "properties": {
+          "email": {
+            "description": "The user email.",
+            "type": "string",
+            "example": "example@email.com"
+          },
+          "password": {
+            "description": "The user password.",
+            "type": "string",
+            "example": "Your password"
+          }
+        }
+      },
+      "RequestError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "Error code",
+            "type": "integer",
+            "example": "400"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string",
+            "example": "Validation Errors: Invalid id, invalid email, etc"
+          }
+        }
+      },
+      "ErrorDB": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "Error code",
+            "type": "integer",
+            "example": "500"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string",
+            "example": "Search failed: description of the error"
+          }
+        }
+      }
+    }
+  }
+}
